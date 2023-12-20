@@ -17,4 +17,5 @@ public class MemberDto
     public List<PhotoDto>? Photos { get; set; }
     public DateTime Created { get; set; }
     public DateTime LastActive { get; set; }
+    public string? MainPhotoUrl { get; set; }
 }

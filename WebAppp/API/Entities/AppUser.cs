@@ -11,7 +11,7 @@ public class AppUser
     public byte[] PasswordHash { get; set; }
     public byte[] PasswordSalt { get; set; }
     public DateOnly BirthDate { get; set; }
-    public int Age { get { return this.BirthDate.CalculateAge(); } }
+    // public int Age { get { return this.BirthDate.CalculateAge(); } }
     public string Aka { get; set; }
     public string Gender { get; set; }
     public string Introduction { get; set; }
