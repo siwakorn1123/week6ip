@@ -17,7 +17,7 @@ export class RegisterComponent {
     // console.log(this.model)
     this.accountService.register(this.model).subscribe(
       {
-        error: err => this.toastr.error(err.error),
+        error: err => this.toastr.error(err),
         next: () => {
           this.cancel()
           this.router.navigateByUrl("/members")
