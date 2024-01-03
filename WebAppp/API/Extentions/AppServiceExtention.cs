@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using API.Data;
+using API.Helpers;
 using API.Interfaces;
 using API.Services;
 using Company.ClassLibrary1;
@@ -22,6 +23,9 @@ public static class AppServiceExtention
         services.AddScoped<ITokenservice, TokenService>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+        services.Configure<CloudinarySetting>(conf.GetSection("CloudinarySettings"));
+        services.AddScoped<IImageService, ImageService>();
+
         return services;
 
     }
