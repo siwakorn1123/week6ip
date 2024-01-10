@@ -1,4 +1,5 @@
 <nav class="navbar navbar-expand-lg  navbar-dark bg-dark">
+    <!-- <nav nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"> -->
     <div class="container">
         <a class="navbar-brand" href="#">Tinner!</a>
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -21,6 +22,7 @@
             <button class="btn btn-outline-success" type="submit">Login</button>
         </form>
         <div dropdown class="dropdown" *ngIf="currentUser$ | async">
+            <img src="{{user?.photoUrl || './assets/images/default-user.png'}}" alt="{{user?.username}} photo">
             <a dropdownToggle class="dropdown-toggle text-light">Hello {{user?.username | titlecase}}</a>
             <div *dropdownMenu="" class="dropdown-menu">
                 <!-- <a class="dropdown-item">Profile</a> -->

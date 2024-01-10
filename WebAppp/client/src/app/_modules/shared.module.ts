@@ -4,6 +4,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown'
 import { ToastrModule } from 'ngx-toastr'
 import { TabsModule } from 'ngx-bootstrap/tabs'
 import { NgxSpinnerModule } from 'ngx-spinner'
+import { FileUploadModule } from 'ng2-file-upload'
 
 
 
@@ -15,12 +16,14 @@ import { NgxSpinnerModule } from 'ngx-spinner'
     ToastrModule.forRoot(),
     TabsModule.forRoot(),
     NgxSpinnerModule.forRoot({ type: 'line-scale-pulse-out-rapid' }),
+    FileUploadModule,
   ],
   exports: [
     BsDropdownModule,
     ToastrModule,
     TabsModule,
     NgxSpinnerModule,
+    FileUploadModule,
   ]
 })
 export class SharedModule {
