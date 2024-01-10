@@ -1,6 +1,6 @@
 <div class="row" *ngIf="member">
     <div class="col-4">
-        <div class="card">
+        <div class="card" style="background-color: rgb(247, 255, 174);">
             <img class="card-img-top img-thumbnail" src="{{member.mainPhotoUrl || './assets/images/default-user.png'}}"
                 alt="{{member.aka}}">
             <div class="card-body">
@@ -25,7 +25,7 @@
                     <p>{{member.created}}</p>
                 </div>
             </div>
-            <div class="card-footer">
+            <div class="card-footer" style="background-color: rgb(247, 255, 174);">
                 <div class="btn-group d-flex">
                     <button type="submit" form="profileForm" [disabled]="!profileForm.dirty"
                         class="btn btn-success col-12">Save</button>
@@ -34,7 +34,7 @@
         </div>
     </div>
 
-    <div class="col-8">
+    <div class="col-8" style="background-color: rgb(255, 255, 255);">
         <div class="alert alert-info pb-0" *ngIf="profileForm.dirty">
             <p><strong>Info: </strong>Any unsaved change will be lost!</p>
         </div>
