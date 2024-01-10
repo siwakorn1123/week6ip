@@ -1,5 +1,5 @@
 <p>
-<div class="card mb-5" *ngIf="member">
+<div class="card mb-5" *ngIf="member" style="background-color: rgb(236, 255, 184);">
     <div class="card-img-wrapper">
         <img class="card-img-top" src="{{member.mainPhotoUrl || './assets/images/default-user.png'}}"
             alt="{{member.aka}}">
@@ -17,7 +17,7 @@
             </li>
         </ul>
     </div>
-    <div class="card-body p-1">
+    <div class="card-body p-1" style="color: rgb(0, 2, 143);">
         <h6 class="card-title text-center mb-1">
             <fa-icon [icon]="faUser"></fa-icon> {{member.aka}}
         </h6>

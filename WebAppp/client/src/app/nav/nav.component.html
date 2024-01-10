@@ -1,16 +1,19 @@
-<nav class="navbar navbar-expand-lg  navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg  navbar-teal bg-teal">
     <!-- <nav nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"> -->
     <div class="container">
-        <a class="navbar-brand" href="#">Tinner!</a>
+        <a class="navbar-brand" href="#" style="color: rgb(251, 255, 0);">Tinner!</a>
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-                <a class="nav-link" href="#" routerLink="/members" routerLinkActive="active">Matched</a>
+                <a class="nav-link" href="#" routerLink="/members" routerLinkActive="active"
+                    style="color: rgb(251, 255, 0);">Matched</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" routerLink="/lists" routerLinkActive="active">Lists</a>
+                <a class="nav-link" href="#" routerLink="/lists" routerLinkActive="active"
+                    style="color: rgb(251, 255, 0);">Lists</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" routerLink="/messages" routerLinkActive="active">Messages</a>
+                <a class="nav-link" href="#" routerLink="/messages" routerLinkActive="active"
+                    style="color: rgb(251, 255, 0);">Messages</a>
             </li>
         </ul>
         <form *ngIf="!(currentUser$ | async)" class="d-flex" #logingForm="ngForm" (ngSubmit)="login()"
@@ -19,11 +22,12 @@
                 placeholder="Username">
             <input name="password" [(ngModel)]="model.password" class="form-control me-2" type="password"
                 placeholder="Password">
-            <button class="btn btn-outline-success" type="submit">Login</button>
+            <button class="btn btn-outline-success" type="submit" style="color: rgb(251, 255, 0);">Login</button>
         </form>
         <div dropdown class="dropdown" *ngIf="currentUser$ | async">
             <img src="{{user?.photoUrl || './assets/images/default-user.png'}}" alt="{{user?.username}} photo">
-            <a dropdownToggle class="dropdown-toggle text-light">Hello {{user?.username | titlecase}}</a>
+            <a dropdownToggle class="dropdown-toggle text-light" style="color: rgb(251, 255, 0);">Hello {{user?.username
+                | titlecase}}</a>
             <div *dropdownMenu="" class="dropdown-menu">
                 <!-- <a class="dropdown-item">Profile</a> -->
                 <a class="dropdown-item" routerLink="member/profile">Profile</a>

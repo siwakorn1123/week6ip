@@ -11,14 +11,14 @@
 
 .nav-tabs>li.open,
 .member-tabset>.nav-tabs>li:hover {
-    border-bottom: 4px solid #fbcdcf;
+    border-bottom: 4px solid #000000;
 }
 
 .member-tabset>.nav-tabs>li.open>a,
 .member-tabset>.nav-tabs>li:hover>a {
     border: 0;
     background: none !important;
-    color: #333333;
+    color: #ffffff;
 }
 
 .member-tabset>.nav-tabs>li.open>a>i,
@@ -32,17 +32,17 @@
 }
 
 .member-tabset>.nav-tabs>li.active {
-    border-bottom: 4px solid #E95420;
+    border-bottom: 4px solid #eeff01;
     position: relative;
 }
 
 .member-tabset>.nav-tabs>li.active>a {
     border: 0 !important;
-    color: #333333;
+    color: #ffffff;
 }
 
 .member-tabset>.nav-tabs>li.active>a>i {
-    color: #404040;
+    color: #ffffff;
 }
 
 .member-tabset>.tab-content {
