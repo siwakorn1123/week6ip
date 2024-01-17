@@ -3,6 +3,7 @@ using API.Data;
 using API.DTOs;
 using API.Entities;
 using API.Extensions;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -27,13 +28,29 @@ public class UsersController : BaseApiController
         if (username is null) return null;
         return await _userRepository.GetUserByUserNameAsync(username);
     }
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
-    {
-        // 
-        return Ok(await _userRepository.GetMembersAsync());
 
+    [HttpGet]
+    public async Task<ActionResult<PageList<MemberDto>>> GetUsers([FromQuery] UserParams userParams)
+    {
+        var username = User.GetUsername();
+        if (username is null) return NotFound();
+
+        var currentUser = await _userRepository.GetUserByUserNameAsync(username);
+        if (currentUser is null) return NotFound();
+        userParams.CurrentUserName = currentUser.UserName;
+        if (string.IsNullOrEmpty(userParams.Gender))
+        {
+            if (currentUser.Gender != "non-binary")
+                userParams.Gender = currentUser.Gender == "male" ? "female" : "male";
+            else
+                userParams.Gender = "non-binary";
+        }
+        var pages = await _userRepository.GetMembersAsync(userParams);
+        Response.AddPaginationHeader(
+            new PaginationHeader(pages.CurrentPage, pages.PageSize, pages.TotalCount, pages.TotalPages));
+        return Ok(pages);
     }
+
     [HttpGet("{id}")]
     public async Task<ActionResult<MemberDto?>> GetUsers(int id)
     {
@@ -51,7 +68,6 @@ public class UsersController : BaseApiController
     [HttpPut]
     public async Task<ActionResult> UpdateUserProfile(MemberUpdateDto memberUpdateDto)
     {
-
         //var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; //มาจาก TokenService.cs -> CreateToken
         //if (username is null) return Unauthorized();
 
@@ -88,6 +104,7 @@ public class UsersController : BaseApiController
         if (await _userRepository.SaveAllAsync()) return _mapper.Map<PhotoDto>(photo);
         return BadRequest("Something has gone wrong!");
     }
+
     [HttpPut("set-main-photo/{photoId}")]
     public async Task<ActionResult> SetMainPhoto(int photoId)
     {
@@ -107,6 +124,7 @@ public class UsersController : BaseApiController
 
         return BadRequest("Something has gone wrong!");
     }
+
     [HttpDelete("delete-photo/{photoId}")]
     public async Task<ActionResult> DeletePhoto(int photoId)
     {

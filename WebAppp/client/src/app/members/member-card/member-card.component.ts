@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core'
 import { faUser, faHeart, faEnvelope } from '@fortawesome/free-solid-svg-icons'
-import { Member } from 'src/app/_services/_model/member'
+import { Member } from 'src/app/_model/member'
 
 @Component({
   selector: 'app-member-card',

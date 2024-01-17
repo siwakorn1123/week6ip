@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { GalleryItem, GalleryModule, ImageItem } from 'ng-gallery'
 import { TabsModule } from 'ngx-bootstrap/tabs'
-import { Member } from 'src/app/_services/_model/member'
+import { Member } from 'src/app/_model/member'
 import { MembersService } from 'src/app/_services/members.service'
 
 @Component({

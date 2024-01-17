@@ -32,6 +32,8 @@
                 <!-- <a class="dropdown-item">Profile</a> -->
                 <a class="dropdown-item" routerLink="member/profile">Profile</a>
                 <a class="dropdown-item" (click)="Logout()">Logout</a>
+                <a dropdownToggle class="text-decoration-none dropdown-toggle text-light">Hello
+                    {{user?.aka| titlecase}}</a>
             </div>
         </div>
     </div>
