@@ -12,4 +12,6 @@ export class MemberCardComponent {
   faHeart = faHeart
   faEnvelope = faEnvelope
   @Input() member: Member | undefined
+
+
 }

@@ -1,21 +1,3 @@
-<!-- <form #regisForm="ngForm" (ngSubmit)="register()" autocomplete="off">
-<form [formGroup]="registerForm" (ngSubmit)="register()" autocomplete="off">
-    # คือ Template Reference Variable
-    <h2 class="text-center text-primary">Sign up</h2>
-    <hr>
-    <div class="mb-5">
-        <input type="text" class="form-control" placeholder="Username" name="username" [(ngModel)]="model.username">
-    </div>
-    <div class="mb-5">
-        <input type="password" class="form-control" placeholder="Password" name="password" [(ngModel)]="model.password">
-    </div>
-    <div class="text-center">
-        <button class="btn btn-success me-5" type="submit">Register</button>
-        <button class="btn btn-default me-5" type="button" (click)="cancel()">Cancel</button>
-    </div>
-</form> -->
-<!-- <form #regisForm="ngForm" (ngSubmit)="register()" autocomplete="off"> -->
-
     <form [formGroup]="registerForm" (ngSubmit)="registerForm.valid && register()" autocomplete="off">
     <h2 class="text-center text-primary" style="color: rgb(255, 251, 0)">Sign up</h2>
     <hr>
@@ -34,9 +16,7 @@
                 <input type="radio" class="form-check-input ms-2" value="female" formControlName="gender"> Female
             </label>
         </div>
-
-        <!-- <app-text-input [formControl]="$any(registerForm.controls['birthDate'])" label="date of birth"
-        placeholder="Enter Date of Birth" type="date"></app-text-input> -->
+        
         <app-date-picker [formControl]="$any(registerForm.controls['birthDate'])" 
     label="date of birth" [maxDate]="maxDate" ></app-date-picker>
 

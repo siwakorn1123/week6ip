@@ -70,6 +70,11 @@ public class UserRepository : IUserRepository
         query = query.Where(user => user.UserName != userParams.CurrentUserName);
         if (userParams.Gender != "non-binary")
             query = query.Where(user => user.Gender == userParams.Gender);
+        query = userParams.OrderBy switch
+        {
+            "created" => query.OrderByDescending(user => user.Created),
+            _ => query.OrderByDescending(user => user.LastActive),
+        };
         query.AsNoTracking();
         return await PageList<MemberDto>.CreateAsync(
             query.ProjectTo<MemberDto>(_mapper.ConfigurationProvider),
@@ -81,5 +86,10 @@ public class UserRepository : IUserRepository
     public object? GetMembersAsync(ClaimsPrincipal user)
     {
         throw new NotImplementedException();
+    }
+
+    public async Task<AppUser?> GetUserByUserNameWithOutPhotoAsync(string username)
+    {
+        return await _dataContext.Users.SingleOrDefaultAsync(user => user.UserName == username);
     }
 }
