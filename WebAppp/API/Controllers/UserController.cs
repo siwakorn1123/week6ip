@@ -6,6 +6,7 @@ using API.Extensions;
 using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers;
 
@@ -29,6 +30,7 @@ public class UsersController : BaseApiController
         return await _userRepository.GetUserByUserNameAsync(username);
     }
 
+    // [Authorize(Roles = "Administrator")]
     [HttpGet]
     public async Task<ActionResult<PageList<MemberDto>>> GetUsers([FromQuery] UserParams userParams)
     {
@@ -57,6 +59,7 @@ public class UsersController : BaseApiController
         var user = await _userRepository.GetUserByIdAsync(id);
         return _mapper.Map<MemberDto>(user);
     }
+    [Authorize(Roles = "Administrator,Moderator,Member")]
     [HttpGet("username/{username}")]
     public async Task<ActionResult<MemberDto?>> GetUserByUserName(string username)
     {

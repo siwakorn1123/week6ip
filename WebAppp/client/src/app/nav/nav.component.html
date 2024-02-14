@@ -31,6 +31,7 @@
             <div *dropdownMenu="" class="dropdown-menu">
                 <!-- <a class="dro pdown-item">Profile</a> -->
                 <a class="dropdown-item" routerLink="member/profile">Profile</a>
+                <a *appHasRole="['Administrator','Moderator']" class="dropdown-item" routerLink="admin">Admin</a>
                 <a class="dropdown-item" (click)="Logout()">Logout</a>
                 <a dropdownToggle class="text-decoration-none dropdown-toggle text-light">Hello
                     {{user?.aka| titlecase}}</a>

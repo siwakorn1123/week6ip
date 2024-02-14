@@ -1,17 +1,30 @@
 ﻿using API.Entities;
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Company.ClassLibrary1;
 #nullable disable
-public class DataContext : DbContext
+// public class DataContext : DbContext
+public class DataContext : IdentityDbContext
+<
+    AppUser,
+    AppRole,
+    int,
+    IdentityUserClaim<int>,
+    AppUserRole,
+    IdentityUserLogin<int>,
+    IdentityRoleClaim<int>,
+    IdentityUserToken<int>
+>
 {
     public DataContext(DbContextOptions options) : base(options)
     {
 
     }
 
-    public DbSet<AppUser> Users { get; set; }
+    // public DbSet<AppUser> Users { get; set; }
     public AutoMapper.IConfigurationProvider ConfigurationProvider { get; internal set; }
 
     public static implicit operator DataContext(Mapper v)
@@ -27,6 +40,18 @@ public class DataContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<AppUser>()
+            .HasMany(appUser => appUser.UserRoles)
+            .WithOne(appUserRole => appUserRole.User)
+            .HasForeignKey(appUserRole => appUserRole.UserId)
+            .IsRequired();
+
+        modelBuilder.Entity<AppRole>()
+            .HasMany(appRole => appRole.UserRoles)
+            .WithOne(appUserRole => appUserRole.Role)
+            .HasForeignKey(appUserRole => appUserRole.RoleId)
+            .IsRequired();
 
         modelBuilder.Entity<UserLike>().HasKey(pk => new { pk.SourceUserId, pk.LikedUserId });
 
