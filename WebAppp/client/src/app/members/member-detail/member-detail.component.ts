@@ -9,6 +9,10 @@ import { MembersService } from 'src/app/_services/members.service'
 import { MemberMessagesComponent } from '../member-messages/member-messages.component'
 import { Message } from 'src/app/_model/message'
 import { MessageService } from 'src/app/_services/message.service'
+import { PresenceService } from 'src/app/_services/presence.service'
+import { User } from 'src/app/_model/user'
+import { AccountService } from 'src/app/_services/account.service'
+import { take } from 'rxjs'
 
 @Component({
   selector: 'app-member-detail',
@@ -23,8 +27,15 @@ export class MemberDetailComponent implements OnInit {
   messages: Message[] = []
   photos: GalleryItem[] = []
   member: Member = {} as Member
+  user?: User
 
-  constructor(private messageService: MessageService, private memberService: MembersService, private route: ActivatedRoute) { }
+  constructor(private accountService: AccountService, public presenceService: PresenceService, private messageService: MessageService, private memberService: MembersService, private route: ActivatedRoute) {
+    this.accountService.currentUser$.pipe(take(1)).subscribe({
+      next: user => {
+        if (user) this.user = user
+      }
+    })
+  }
 
   ngOnInit(): void {
     this.route.data.subscribe({
@@ -39,9 +50,13 @@ export class MemberDetailComponent implements OnInit {
   }
   onTabActivated(tab: TabDirective) {
     this.activeTab = tab
-    if (this.activeTab.heading === 'Messages') {
-      this.loadMessages()
-    }
+    if (this.activeTab.heading === 'Messages' && this.user)
+      this.messageService.createHubConnection(this.user, this.member.userName) // this.loadMessages()
+    else
+      this.messageService.stopHubConnection()
+  }
+  ngOnDestroy(): void {
+    this.messageService.stopHubConnection()
   }
   selectTab(tabHeading: string) {
     if (!this.memberTabs) return

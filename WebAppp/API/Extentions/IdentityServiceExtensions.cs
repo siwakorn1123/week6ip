@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using API.Data;
 using API.Entities;
 using Company.ClassLibrary1;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

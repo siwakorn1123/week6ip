@@ -10,6 +10,13 @@ public class AutoMapperUserProfiles : Profile
 {
     public AutoMapperUserProfiles()
     {
+        CreateMap<DateTime, DateTime>()
+            .ConvertUsing(datetime => DateTime.SpecifyKind(datetime, DateTimeKind.Utc));
+
+        CreateMap<DateTime?, DateTime?>()
+            .ConvertUsing(datetime => datetime.HasValue
+            ? DateTime.SpecifyKind(datetime.Value, DateTimeKind.Utc)
+            : null);
         CreateMap<AppUser, MemberDto>()
              .ForMember(
                  user => user.MainPhotoUrl,

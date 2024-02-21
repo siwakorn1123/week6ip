@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Company.ClassLibrary1;
+namespace API.Data;
 #nullable disable
 // public class DataContext : DbContext
 public class DataContext : IdentityDbContext
@@ -34,6 +34,8 @@ public class DataContext : IdentityDbContext
 
     public DbSet<UserLike> Likes { get; set; }
     public DbSet<Message> Messages { get; set; }
+    public DbSet<MessageGroup> MessageGroups { get; set; }
+    public DbSet<Connection> Connections { get; set; }
 
 
 

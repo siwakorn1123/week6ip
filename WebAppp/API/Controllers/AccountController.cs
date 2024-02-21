@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography;
 using System.Text;
+using API.Data;
 using API.DTOs;
 using API.Entities;
 using API.Interfaces;
@@ -17,7 +18,7 @@ namespace API.Controllers;
 public class AccountController : BaseApiController
 {
     private readonly IMapper _mapper;
-    // private readonly DataContext _dataContext;
+    private readonly DataContext _dataContext;
     private readonly ITokenservice _tokenService;
 
     private readonly UserManager<AppUser> _userManager;
@@ -27,20 +28,23 @@ public class AccountController : BaseApiController
         _userManager = userManager;
         _tokenService = tokenService;
     }
-    private async Task<bool> isUserExists(string username) =>
-        await _userManager.Users.AnyAsync(user => user.UserName == username.ToLower());
+    private async Task<bool> isUserExists(string username)
+    {
+        return await _dataContext.Users.AnyAsync(user => user.UserName == username.ToLower());
+    }
 
     [HttpPost("login")]
     public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
     {
-        var user = await _userManager.Users //<--
-                         .Include(photo => photo.Photos)
-                         .SingleOrDefaultAsync(user =>
-                             user.UserName == loginDto.Username!.ToLower());
+        var user = await _userManager.Users
+                        .Include(photo => photo.Photos)
+                        .SingleOrDefaultAsync(user =>
+                            user.UserName == loginDto.Username!.ToLower());
 
         if (user is null) return Unauthorized("invalid username");
-        var appUser = await _userManager.CheckPasswordAsync(user, loginDto.Password!); //<--
+        var appUser = await _userManager.CheckPasswordAsync(user, loginDto.Password!);
         if (!appUser) return BadRequest("invalid password");
+
 
         return new UserDto
         {
@@ -57,13 +61,17 @@ public class AccountController : BaseApiController
         if (await isUserExists(registerDto.Username!))
             return BadRequest("username is already exists");
         var user = _mapper.Map<AppUser>(registerDto);
-
+        using var hmacSHA256 = new HMACSHA256();
+        //var user = new AppUser
+        // {
         user.UserName = registerDto.Username!.Trim().ToLower();
-
-        // _dataContext.Users.Add(user);
-        // await _dataContext.SaveChangesAsync();
+        // user.PasswordHash = hmacSHA256.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password!.Trim()));
+        // user.PasswordSalt = hmacSHA256.Key;
+        // };
+        _dataContext.Users.Add(user);
+        await _dataContext.SaveChangesAsync();
         var appUser = await _userManager.CreateAsync(user, registerDto.Password!);//
-        if (!appUser.Succeeded) return BadRequest(appUser.Errors);
+        if (!appUser.Succeeded) return BadRequest(appUser.Errors);//<--
         var role = await _userManager.AddToRoleAsync(user, "Member");//
         if (!role.Succeeded) return BadRequest(role.Errors);//
         return new UserDto
@@ -75,5 +83,6 @@ public class AccountController : BaseApiController
             Gender = user.Gender
         };
     }
+
 
 }
