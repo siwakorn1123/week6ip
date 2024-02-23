@@ -23,9 +23,12 @@ app.UseCors(builder => builder
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseDefaultFiles(); // out-> index.html from wwwroot folder
+app.UseStaticFiles(); // use wwwroot folder to serve the content
 app.MapControllers();
 app.MapHub<PresenceHub>("hubs/presence");
 app.MapHub<MessageHub>("hubs/message");
+app.MapFallbackToController("Index", "Fallback");
 using var scope = app.Services.CreateScope();
 var service = scope.ServiceProvider;
 try
@@ -34,9 +37,10 @@ try
     var userManager = service.GetRequiredService<UserManager<AppUser>>(); //<--
     var roleManager = service.GetRequiredService<RoleManager<AppRole>>(); //<-- //
     await dataContext.Database.MigrateAsync();
+    await Seed.ClearConnections(dataContext);
     await Seed.SeedUsers(userManager, roleManager); //<--
 
-    await dataContext.Database.ExecuteSqlRawAsync("DELETE FROM [Connections]");
+    // await dataContext.Database.ExecuteSqlRawAsync("DELETE FROM [Connections]");
 }
 catch (Exception e)
 {
